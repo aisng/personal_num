@@ -33,6 +33,8 @@ def check_length(personal_num):
     return False
 
 
+# TODO: generalize this function to use both in personal_number_check() and generate_personal_number() using
+# century_gender_map
 def check_gender_and_century(gender_and_century):
     if gender_and_century in range(1, 7):
         return True
