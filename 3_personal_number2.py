@@ -62,11 +62,12 @@ def check_gender_and_century(gender_and_century_num=None, year=None, gender=None
 
 
 def check_queue_num(num):
-    if len(str(num)) == 1:
-        return "00" + str(num)
-    elif len(str(num)) == 2:
-        return "0" + str(num)
-    elif len(str(num)) > 3:
+    str(num)
+    if len(num) == 1:
+        return "00" + num
+    elif len(num) == 2:
+        return "0" + num
+    elif len(num) > 3:
         return False
     return num
 
@@ -138,5 +139,5 @@ def generate_personal_number(gender, date, queue):
     return generated_personal_num
 
 
-print(generate_personal_number("male", "2000-11-14", 23))
+print(generate_personal_number("male", "2000-11-14", 1))
 # print(personal_number_check(82311142230))
