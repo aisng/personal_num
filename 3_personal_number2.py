@@ -39,8 +39,6 @@ def check_length(personal_num):
 # 3. return the value by given year and gender.
 # 4. if the given year and gender is not in map, return false
 def check_gender_and_century(gender_and_century_num=None, year=None, gender=None):
-    # correct_gender = bool()
-    # correct_year = bool()
     century_gender_map = {
         (1800, "male"): 1,
         (1800, "female"): 2,
@@ -56,12 +54,11 @@ def check_gender_and_century(gender_and_century_num=None, year=None, gender=None
     elif gender_and_century_num is None:
         year_century = year // 100 * 100
         keys = [x for x in century_gender_map.keys()]
-
         for item in keys:
             if item[0] == year_century and item[1] == gender:
                 return century_gender_map.get((year_century, gender))
-            else:
-                return False
+        else:
+            return False
 
 
 def check_queue_num(num):
@@ -127,7 +124,7 @@ def generate_personal_number(gender, date, queue):
     if check_gender_and_century(None, year, gender):
         gender_and_century_digit = str(check_gender_and_century(None, year, gender))
     else:
-        return f"invalid gender '{gender}' or year '{year}'"
+        return f"incorrect year '{year}' or gender '{gender}'"
     year_digits = str(year)[2] + str(year)[3]
     queue_digits = str(queue)
     if not check_queue_num(queue_digits):
@@ -141,5 +138,5 @@ def generate_personal_number(gender, date, queue):
     return generated_personal_num
 
 
-print(generate_personal_number("male", "3000-11-14", 23))
-# print(personal_number_check(52311142230))
+print(generate_personal_number("male", "2000-11-14", 23))
+# print(personal_number_check(82311142230))
