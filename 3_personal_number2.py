@@ -41,10 +41,42 @@ def check_gender_and_century(gender_and_century):
     return False
 
 
-# def check_birth_year(given_year):
-#     if given_year in range(1800, 2100):
-#         return True
-#     return False
+# TODO: finish writting this function
+# 1. check if given gender_and_century_num value is in gender_century_map
+# 2. if value is there, return it
+# 3. return the value by given year and gender.
+# 4. if the given year and gender is not in map, return false
+def check_gender_and_century2(gender_and_century_num=None, year=None, gender=None):
+    century_gender_map = {
+        (1800, "male"): 1,
+        (1800, "female"): 2,
+        (1900, "male"): 3,
+        (1900, "female"): 4,
+        (2000, "male"): 5,
+        (2000, "female"): 6,
+    }
+    if year is None and gender is None:
+        for value in century_gender_map.values():
+            if gender_and_century_num == value:
+                return value
+    elif gender_and_century_num is None:
+        year_century = year // 100 * 100
+        keys = [x for x in century_gender_map.keys()]
+
+        for item in keys:
+            if item[0] == year_century and item[1] == gender:
+                return century_gender_map.get((year_century, gender))
+        else:
+            return False
+
+
+def check_queue_num(num):
+    if len(str(num)) == 1:
+        return "00" + str(num)
+    elif len(str(num)) == 2:
+        return "0" + str(num)
+    elif len(str(num)) > 3:
+        return False
 
 
 def check_birth_month(given_month):
@@ -76,7 +108,7 @@ def personal_number_check(number):
 
     if not check_length(personal_num):
         return f"incorrect number length ({len(personal_num)})"
-    if not check_gender_and_century(gender_and_century):
+    if not (check_gender_and_century2(gender_and_century, None, None) == gender_and_century):
         return f"incorrect first number ({personal_num[0]})"
     if not (check_birth_month(given_month) and check_birth_day(given_day)):
         match gender_and_century:
@@ -98,42 +130,46 @@ def generate_personal_number(gender, date, queue):
     day = date.split("-")[2]
 
     # chatGPT suggestion
-    century_gender_map = {
-        (1800, "male"): 1,
-        (1800, "female"): 2,
-        (1900, "male"): 3,
-        (1900, "female"): 4,
-        (2000, "male"): 5,
-        (2000, "female"): 6,
-    }
-
-    # make zeroes out of last two digits to get century
-    year_century = year // 100 * 100
-    keys = [x for x in century_gender_map.keys()]
-
-    correct_year = bool()
-    correct_gender = bool()
-    for item in keys:
-        if item[0] == year_century:
-            correct_year = True
-        elif item[1] == gender:
-            correct_gender = True
-
-    if not correct_gender:
-        return f"incorrect gender '{gender}'"
-    elif not correct_year:
-        return f"incorrect year '{year}'"
-
-    gender_and_century_digit = str(century_gender_map.get((year_century, gender)))
+    # century_gender_map = {
+    #     (1800, "male"): 1,
+    #     (1800, "female"): 2,
+    #     (1900, "male"): 3,
+    #     (1900, "female"): 4,
+    #     (2000, "male"): 5,
+    #     (2000, "female"): 6,
+    # }
+    #
+    # # make zeroes out of last two digits to get century
+    # year_century = year // 100 * 100
+    # keys = [x for x in century_gender_map.keys()]
+    #
+    # correct_year = bool()
+    # correct_gender = bool()
+    # for item in keys:
+    #     if item[0] == year_century:
+    #         correct_year = True
+    #     elif item[1] == gender:
+    #         correct_gender = True
+    #
+    # if not correct_gender:
+    #     return f"incorrect gender '{gender}'"
+    # elif not correct_year:
+    #     return f"incorrect year '{year}'"
+    if check_gender_and_century2(None, year, gender):
+        gender_and_century_digit = str(check_gender_and_century2(None, year, gender))
+    else:
+        return f"invalid gender {gender}"
     year_digits = str(year)[2] + str(year)[3]
     queue_digits = str(queue)
-
-    if len(str(queue)) == 1:
-        queue_digits = "00" + str(queue)
-    elif len(str(queue)) == 2:
-        queue_digits = "0" + str(queue)
-    elif len(str(queue)) > 3:
+    if not check_queue_num(queue_digits):
         return f"incorrect queue number ({queue})"
+
+    # if len(str(queue)) == 1:
+    #     queue_digits = "00" + str(queue)
+    # elif len(str(queue)) == 2:
+    #     queue_digits = "0" + str(queue)
+    # elif len(str(queue)) > 3:
+    #     return f"incorrect queue number ({queue})"
 
     ten_digits = gender_and_century_digit + year_digits + month + day + queue_digits
     generated_personal_num = int(ten_digits + str(generate_control_num(ten_digits)))
@@ -142,4 +178,4 @@ def generate_personal_number(gender, date, queue):
 
 
 print(generate_personal_number("male", "2023-11-14", 223))
-print(personal_number_check(52311142230))
+# print(personal_number_check(52311142230))
