@@ -151,6 +151,7 @@ def generate_personal_number(gender, date, queue):
 
     ten_digits = gender_and_century_digit + year_digits + month + day + queue_digits
     generated_personal_num = int(ten_digits + str(generate_control_num(ten_digits)))
+    # pass generated num to validity check function
     if personal_number_check(generated_personal_num) == f"personal number {generated_personal_num} is valid":
         return f"your personal number is {generated_personal_num}"
     else:
