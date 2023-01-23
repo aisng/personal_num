@@ -120,9 +120,9 @@ def generate_personal_number(gender, date, queue):
             correct_gender = True
 
     if not correct_gender:
-        return f"incorrect gender {gender}"
+        return f"incorrect gender '{gender}'"
     elif not correct_year:
-        return f"incorrect year {year}"
+        return f"incorrect year '{year}'"
 
     gender_and_century_digit = str(century_gender_map.get((year_century, gender)))
     year_digits = str(year)[2] + str(year)[3]
@@ -138,11 +138,9 @@ def generate_personal_number(gender, date, queue):
     ten_digits = gender_and_century_digit + year_digits + month + day + queue_digits
     generated_personal_num = int(ten_digits + str(generate_control_num(ten_digits)))
     # pass generated num to validity check function
-    if personal_number_check(generated_personal_num) == f"personal number {generated_personal_num} is valid":
-        return f"your personal number is {generated_personal_num}"
-    else:
-        return personal_number_check(generated_personal_num)
+
+    return generated_personal_num
 
 
-# print(generate_personal_number("male", "1923-11-14", 23))
-print(personal_number_check(32311140004))
+print(generate_personal_number("male", "2023-11-14", 223))
+print(personal_number_check(52311142230))
