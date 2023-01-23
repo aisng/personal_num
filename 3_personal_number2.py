@@ -65,49 +65,33 @@ def check_control_num(personal_num, given_control_num):
     return False
 
 
+# function to check if given personal num is valid
 def personal_number_check(number):
-    correct_length = bool()
-    correct_date = bool()
-    correct_gender_and_century = bool()
-    correct_control_num = bool()
-    correct_personal_num = bool()
-
     personal_num = [int(x) for x in str(number)]
     gender_and_century = personal_num[0]
     given_control_num = personal_num[-1]
-    given_year = str(personal_num[1]) + str(personal_num[2])
+    given_year = int(str(personal_num[1]) + str(personal_num[2]))
     given_month = int(str(personal_num[3]) + str(personal_num[4]))
     given_day = int(str(personal_num[5]) + str(personal_num[6]))
 
-    if check_length(personal_num):
-        correct_length = True
-    if check_gender_and_century(gender_and_century):
-        correct_gender_and_century = True
-    if check_birth_month(given_month) and check_birth_day(given_day):
-        correct_date = True
-    if check_control_num(personal_num, given_control_num):
-        correct_control_num = True
-
-    # returns
-    if correct_date and correct_length and correct_control_num and correct_gender_and_century:
-        return f"personal number {number} is valid"
-    else:
-        if not correct_length:
-            return f"incorrect number length ({len(personal_num)})"
-        if not correct_gender_and_century:
-            return f"incorrect first number ({personal_num[0]})"
-        if not correct_date:
-            match gender_and_century:
-                case 1 | 2:
-                    return f"date 18{given_year}-{given_month}-{given_day} is incorrect."
-                case 3 | 4:
-                    return f"date 19{given_year}-{given_month}-{given_day} is incorrect."
-                case 5 | 6:
-                    return f"date 20{given_year}-{given_month}-{given_day} is incorrect."
-        if not correct_control_num:
-            return f"incorrect control number (has to be {generate_control_num(personal_num)})"
+    if not check_length(personal_num):
+        return f"incorrect number length ({len(personal_num)})"
+    if not check_gender_and_century(gender_and_century):
+        return f"incorrect first number ({personal_num[0]})"
+    if not (check_birth_month(given_month) and check_birth_day(given_day)):
+        match gender_and_century:
+            case 1 | 2:
+                return f"date 18{given_year}-{given_month}-{given_day} is incorrect."
+            case 3 | 4:
+                return f"date 19{given_year}-{given_month}-{given_day} is incorrect."
+            case 5 | 6:
+                return f"date 20{given_year}-{given_month}-{given_day} is incorrect."
+    if not check_control_num(personal_num, given_control_num):
+        return f"incorrect control number (has to be {generate_control_num(personal_num)})"
+    return f"personal number {number} is valid"
 
 
+# function to generate personal num from given gender, date and birth queue
 def generate_personal_number(gender, date, queue):
     year = int(date.split("-")[0])
     month = date.split("-")[1]
@@ -160,5 +144,5 @@ def generate_personal_number(gender, date, queue):
         return personal_number_check(generated_personal_num)
 
 
-print(generate_personal_number("apple", "3000-11-14", 0))
-# print(personal_number_check(38207313272))
+# print(generate_personal_number("male", "1923-11-14", 23))
+print(personal_number_check(32311140004))
