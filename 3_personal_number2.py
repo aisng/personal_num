@@ -157,6 +157,5 @@ def generate_personal_number(gender, date, queue):
         return personal_number_check(generated_personal_num)
 
 
-# print(generate_personal_number("male", "2001-01-02", 2))
 print(generate_personal_number("apple", "3000-11-14", 0))
 # print(personal_number_check(38207313272))
