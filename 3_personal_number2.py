@@ -33,7 +33,7 @@ def check_length(personal_num):
     return False
 
 
-# TODO: fix return values for incorrect gender and year
+# TODO: fix return values for incorrect gender and year; try YIELD
 # 1. check if given gender_and_century_num value is in gender_century_map
 # 2. if value is there, return it
 # 3. return the value by given year and gender.
@@ -95,7 +95,7 @@ def personal_number_check(number):
     personal_num = [int(x) for x in str(number)]
     given_gender_and_century = personal_num[0]
     given_control_num = personal_num[-1]
-    given_year = int(str(personal_num[1]) + str(personal_num[2]))
+    given_year = str(personal_num[1]) + str(personal_num[2])
     given_month = int(str(personal_num[3]) + str(personal_num[4]))
     given_day = int(str(personal_num[5]) + str(personal_num[6]))
 
@@ -139,5 +139,5 @@ def generate_personal_number(gender, date, queue):
     return generated_personal_num
 
 
-print(generate_personal_number("male", "2000-11-14", 1))
-# print(personal_number_check(82311142230))
+print(generate_personal_number("male", "2000-03-14", 1))
+print(personal_number_check(50011140015))
