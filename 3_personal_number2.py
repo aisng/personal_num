@@ -39,6 +39,7 @@ def check_length(personal_num):
 # 3. return the value by given year and gender.
 # 4. if the given year and gender is not in map, return false
 def check_gender_and_century(gender_and_century_num=None, year=None, gender=None):
+    result = None
     century_gender_map = {
         (1800, "male"): 1,
         (1800, "female"): 2,
@@ -50,15 +51,30 @@ def check_gender_and_century(gender_and_century_num=None, year=None, gender=None
     if year is None and gender is None:
         for value in century_gender_map.values():
             if gender_and_century_num == value:
-                return value
+                result = value
+                break
+            else:
+                result = gender_and_century_num
     elif gender_and_century_num is None:
         year_century = year // 100 * 100
         keys = [x for x in century_gender_map.keys()]
         for item in keys:
             if item[0] == year_century and item[1] == gender:
-                return century_gender_map.get((year_century, gender))
-        else:
-            return False
+                # function calls itself to generate the gender/century digit
+                pre_result = century_gender_map.get((year_century, gender))
+                result = check_gender_and_century(pre_result, None, None)
+                break
+            else:
+                if item[0] == year_century and item[1] != gender:
+                    result = (year, item[1])
+
+                elif item[0] != year_century and item[1] == gender:
+                    result = (item[0], gender)
+
+                else:
+                    result = (year, gender)
+
+    return result
 
 
 def check_queue_num(num):
@@ -118,14 +134,21 @@ def personal_number_check(number):
 
 # function to generate personal num from given gender, date and birth queue
 def generate_personal_number(gender, date, queue):
+    gender_and_century_digit = str()
     year = int(date.split("-")[0])
     month = date.split("-")[1]
     day = date.split("-")[2]
 
-    if check_gender_and_century(None, year, gender):
+    if check_gender_and_century(None, year, gender) in range(1, 7):
         gender_and_century_digit = str(check_gender_and_century(None, year, gender))
     else:
-        return f"incorrect year '{year}' or gender '{gender}'"
+        if check_gender_and_century(None, year, gender) != gender and check_gender_and_century(None, year, gender)[
+            0] not in range(1800, 2100):
+            return f"incorrect year '{year}' and gender '{gender}'"
+        if check_gender_and_century(None, year, gender)[0] not in range(1800, 2100):
+            return f"incorrect year '{year}'"
+        if check_gender_and_century(None, year, gender)[1] != gender:
+            return f"incorrect gender '{gender}'"
     year_digits = str(year)[2] + str(year)[3]
     queue_digits = str(queue)
     if not check_queue_num(queue_digits):
@@ -139,5 +162,6 @@ def generate_personal_number(gender, date, queue):
     return generated_personal_num
 
 
-print(generate_personal_number("male", "2000-03-14", 1))
-print(personal_number_check(50011140015))
+# TODO: write a third funcion main() to connect generator with validator
+print(generate_personal_number("mal", "2300-03-14", 1))
+print(personal_number_check(92915140092))
