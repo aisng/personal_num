@@ -33,11 +33,6 @@ def check_length(personal_num):
     return False
 
 
-# TODO: fix return values for incorrect gender and year; try YIELD
-# 1. check if given gender_and_century_num value is in gender_century_map
-# 2. if value is there, return it
-# 3. return the value by given year and gender.
-# 4. if the given year and gender is not in map, return false
 def check_gender_and_century(gender_and_century_num=None, year=None, gender=None):
     result = None
     century_gender_map = {
